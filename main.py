@@ -1,18 +1,22 @@
-#Задача: На вход программе подаются 3 коэффициента квадратного
-#уравнения. Программа должна находить корни квадратного уравнения.
-#Залить данную задачу на локальный Git и GitHub.
-import math
-print("Введите коэффициенты уравнения")
-a = float(input("a = "))
-b = float(input("b = "))
-c = float(input("c = "))
-
-if b ** 2 - 4 * a * c > 0:
-    x1 = (-b + math.sqrt(b ** 2 - 4 * a * c)) / (2 * a)
-    x2 = (-b - math.sqrt(b ** 2 - 4 * a * c)) / (2 * a)
-    print("x1 =",x1,"x2 = ",x2)
-elif b ** 2 - 4 * a * c == 0:
-    x = -b / (2 * a)
-    print("x =",x)
-else:
-    print("Корней нет")
+import requests
+appid="fea9623caa0d853373e467a102dfe523"
+s_city="Moscow,RU"
+res = requests.get("http://api.openweathermap.org/data/2.5/weather",
+    params={'q': s_city, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
+data = res.json()
+print("Город:", s_city)
+print("Погодные условия:", data['weather'][0]['description'])
+print("Температура:", data['main']['temp'])
+print("Минимальная температура:", data['main']['temp_min'])
+print("Максимальная температура", data['main']['temp_max'])
+#print("Скорость ветра",data[''][''])
+#print("Видимость",[''][''])
+res = requests.get("http://api.openweathermap.org/data/2.5/forecast",
+params={'q': s_city, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
+data = res.json()
+print("Прогноз погоды на неделю:")
+for i in data['list']:
+    print("Дата <", i['dt_txt'], "> \r\nТемпература <",
+'{0:+3.0f}'.format(i['main']['temp']), "> \r\nПогодные условия <",
+i['weather'][0]['description'], ">")
+print("____________________________")
